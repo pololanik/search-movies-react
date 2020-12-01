@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
-import SearchMovie from "./SearchMovie";
-import MovieDetail from "./MovieDetail";
+import SearchMovie from "./pages/SearchMovie";
+import MovieDetail from "./pages/MovieDetail";
 import {Container, createMuiTheme, Typography} from "@material-ui/core";
 import {makeStyles, ThemeProvider} from '@material-ui/core/styles';
 import {blue, pink} from "@material-ui/core/colors";
@@ -25,6 +25,7 @@ const useStyles = makeStyles({
     }
 });
 
+
 const App: FC = props => {
     useStyles()
     return (
@@ -34,9 +35,7 @@ const App: FC = props => {
                 <Typography variant="h3" component="h1" gutterBottom>Movie Database</Typography>
                 <BrowserRouter>
                     <Switch>
-                        <Route exact path="/">
-                            <SearchMovie/>
-                        </Route>
+                        <Route path="/" component={SearchMovie} exact />
                         <Route
                             path="/movie/:movieId"
                             render={({ match }) => <MovieDetail movieId={match.params.movieId} />}

@@ -1,7 +1,7 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import {Button, Card, CardActions, CardContent, Typography} from "@material-ui/core";
-import dbJson from "./db.json";
-import {IMovie} from "./types";
+import dbJson from "../db.json";
+import {IMovie} from "../types";
 import {makeStyles} from "@material-ui/core/styles";
 import { useHistory } from 'react-router-dom';
 import Alert from "@material-ui/lab/Alert";
@@ -27,7 +27,7 @@ const MovieDetail: FC<MovieDetailProps> = props => {
     }
 
     const handleClickBack = () => {
-        history.goBack();
+        history.push('/');
     }
 
     return (

@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import React, {FC, useRef} from "react";
 import Paper from "@material-ui/core/Paper";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
@@ -32,6 +32,8 @@ type SearchInputProps = {
     onClear: () => void
 }
 const SearchInput: FC<SearchInputProps> = props => {
+    console.log('render SearchInput');
+    const inputRef = useRef<HTMLInputElement>(null)
     const [localValue, setLocalValue] = React.useState<string>(props.value);
     const isChanged = localValue === props.value;
     const classes = useStyles();
@@ -44,10 +46,17 @@ const SearchInput: FC<SearchInputProps> = props => {
         setLocalValue(e.target.value)
     }
 
+    const handleClickClear = () => {
+        setLocalValue('')
+        props.onClear()
+        inputRef.current?.focus()
+    }
+
     return (
         <form onSubmit={handleSubmit}>
             <Paper className={classes.root}>
                 <InputBase
+                    inputRef={inputRef}
                     value={localValue}
                     onChange={handleChangeInput}
                     className={classes.input}
@@ -55,7 +64,7 @@ const SearchInput: FC<SearchInputProps> = props => {
                     fullWidth
                 />
                 <Divider orientation="vertical" className={classes.divider}/>
-                <IconButton color="primary" onClick={isChanged ? props.onClear : () => props.onChange(localValue)}>
+                <IconButton color="primary" onClick={isChanged ? handleClickClear : () => props.onChange(localValue)}>
                     {localValue === props.value ? <RemoveIcon/> : <SearchIcon />}
                 </IconButton>
             </Paper>
@@ -63,4 +72,4 @@ const SearchInput: FC<SearchInputProps> = props => {
     );
 };
 
-export default SearchInput;
+export default React.memo(SearchInput);
